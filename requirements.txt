@@ -1,0 +1,7 @@
+Flask>=1.0.0
+cryptography
+python-jose[cryptography]
+requests
+flask_wtf
+wtforms
+google-cloud-datastore==1.7.0

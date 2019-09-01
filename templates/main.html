@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+   <style type="text/css">
+      #parent { white-space: nowrap;overflow-x: auto; }
+      #children { display: inline-block; padding: 8px}
+   </style>
+   <body>
+   
+      <div>
+         <h1>Greetings {{ name }}!</h1>
+         <form action="{{ url_for('logout') }}" method="post">
+            <button name="logoutBtn" type="submit">logout</button>
+        </form>
+      </div>
+
+      <div>
+         {% for item in tasks %}
+            <div id="parent">
+               <form id="children" action="{{ url_for('update_task', task_id=item.id) }}" method="post">
+                  <label for="completed_checkbox">Completed</label> 
+                  <input type="checkbox" name="completed_checkbox" id="completed_checkbox" {% if item.done %}checked{% endif %}> 
+                  <input type="text" value="{{ item.description }}" name="description">
+                  <label for="due_date">Due Date</label>    
+                  <input type="text" value="{{ item.due_date }}" name="due_date">
+                  <input type="submit" value="Update Task">
+               </form>
+               <form id="children" action="{{ url_for('delete_task', task_id=item.id) }}" method="post">
+                  <input type="image" height="30" width="30" src="http://cdn.onlinewebfonts.com/svg/img_529017.png">
+               </form>
+            </div>
+         {% endfor %}
+      </div>
+
+      <div>
+         {% block submit %}
+            <div>
+               <form action="{{ url_for('submit_task') }}" method="post">
+                  {{ new_task_form.hidden_tag() }}
+
+                  {{ new_task_form.description.label() }}
+                  {{ new_task_form.description() }}
+
+                  {{ new_task_form.due_date.label() }}
+                  {{ new_task_form.due_date() }}
+
+                  {{ new_task_form.submit() }}
+               </form>
+            </div>
+         {% endblock submit %}
+      </div>
+      
+   </body>
+</html>
